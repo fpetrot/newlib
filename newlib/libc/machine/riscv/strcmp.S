@@ -160,5 +160,10 @@ strcmp:
 .align 3
 mask:
 .dword 0x7f7f7f7f7f7f7f7f
+#elif SZREG == 16
+.section .srodata.cst16,"aM",@progbits,16
+.align 4
+mask:
+.octa 0x7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f
 #endif
 #endif
