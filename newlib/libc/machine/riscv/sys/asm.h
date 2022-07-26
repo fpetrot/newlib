@@ -15,7 +15,12 @@
 /*
  * Macros to handle different pointer/register sizes for 32/64-bit code
  */
-#if __riscv_xlen == 64
+#if __riscv_xlen == 128
+# define PTRLOG 4
+# define SZREG	16
+# define REG_S sq
+# define REG_L lq
+#elif __riscv_xlen == 64
 # define PTRLOG 3
 # define SZREG	8
 # define REG_S sd
@@ -26,7 +31,7 @@
 # define REG_S sw
 # define REG_L lw
 #else
-# error __riscv_xlen must equal 32 or 64
+# error __riscv_xlen must equal 32, 64, or 128
 #endif
 
 #ifndef __riscv_float_abi_soft
