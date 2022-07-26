@@ -45,6 +45,8 @@ lrintf (float x)
        "fcvt.w.s"
 #elif __riscv_xlen == 64
        "fcvt.l.s"
+#elif __riscv_xlen == 128
+       "fcvt.l.s"
 #else
 #error Unsupported XLEN
 #endif

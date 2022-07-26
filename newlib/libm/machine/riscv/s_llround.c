@@ -43,6 +43,8 @@ llround(double x)
   asm (
 #if __riscv_xlen == 64
        "fcvt.l.d"
+#elif __riscv_xlen == 128
+       "fcvt.l.d"
 #else
 #error Unsupported XLEN
 #endif
