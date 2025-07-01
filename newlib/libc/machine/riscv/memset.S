@@ -146,7 +146,7 @@ memset:
   /* Calculate end address */
   and    t0, a2, ~(MV_SZ - 1)
   add    t1, a3, t0
-
+li a0, MV_SZ
   /*
     The idea behind the table of word copies is that first we calculate any
     remainder of bytes that need to be copied by the table that aren't an
@@ -172,6 +172,8 @@ memset:
     the table offset in half
   */
   srl    t0, t0, 1
+#elif MV_SZ == 16
+  srl    t0, t0, 2	
 #endif
 
   add    t2, t2, t0
@@ -275,6 +277,9 @@ memset:
   sb     a1, 18(a3)
   sb     a1, 17(a3)
   sb     a1, 16(a3)
+#if MV_SZ == 16 
+.Ltable_misaligned:
+#endif
   sb     a1, 15(a3)
   sb     a1, 14(a3)
   sb     a1, 13(a3)

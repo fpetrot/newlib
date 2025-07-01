@@ -7,6 +7,8 @@
 typedef uint64_t uintxlen_t;
 #elif __riscv_xlen == 32
 typedef uint32_t uintxlen_t;
+#elif __riscv_xlen == 128
+typedef __uint128_t uintxlen_t;
 #else
 # error __riscv_xlen must equal 32 or 64
 #endif

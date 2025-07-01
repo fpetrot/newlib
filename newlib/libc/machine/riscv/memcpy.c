@@ -42,7 +42,7 @@ __libc_load_xlen (const void *src)
   unsigned char b3 = *p++;
   ret = (uintxlen_t)b0 | ((uintxlen_t)b1 << 8) | ((uintxlen_t)b2 << 16)
         | ((uintxlen_t)b3 << 24);
-#if __riscv_xlen == 64
+#if __riscv_xlen == 64 || __riscv_xlen == 128
   unsigned char b4 = *p++;
   unsigned char b5 = *p++;
   unsigned char b6 = *p++;
@@ -50,6 +50,21 @@ __libc_load_xlen (const void *src)
   ret |= ((uintxlen_t)b4 << 32) | ((uintxlen_t)b5 << 40)
          | ((uintxlen_t)b6 << 48) | ((uintxlen_t)b7 << 56);
 #endif
+#if __riscv_xlen == 128
+  unsigned char b8 = *p++;
+  unsigned char b9 = *p++;
+  unsigned char b10 = *p++;
+  unsigned char b11 = *p++;
+  unsigned char b12 = *p++;
+  unsigned char b13 = *p++;
+  unsigned char b14 = *p++;
+  unsigned char b15 = *p++;
+  ret |= ((uintxlen_t)b8 << 64) | ((uintxlen_t)b9 << 72)
+         | ((uintxlen_t)b10 << 80) | ((uintxlen_t)b11 << 88)
+	 | ((uintxlen_t)b12 << 96) | ((uintxlen_t)b13 << 104)
+	 | ((uintxlen_t)b14 << 112) | ((uintxlen_t)b15 << 120);
+#endif
+
   return ret;
 }
 #endif
@@ -126,6 +141,16 @@ memcpy (void *__restrict aa, const void *__restrict bb, size_t n)
           uintxlen_t b6 = *lb++;
           uintxlen_t b7 = *lb++;
           uintxlen_t b8 = *lb++;
+#if __riscv_xlen == 128
+	  uintxlen_t b9 = *lb++;
+          uintxlen_t b10 = *lb++;
+          uintxlen_t b11 = *lb++;
+          uintxlen_t b12 = *lb++;
+          uintxlen_t b13 = *lb++;
+          uintxlen_t b14 = *lb++;
+          uintxlen_t b15 = *lb++;
+          uintxlen_t b16 = *lb++;
+#endif
           *la++ = b0;
           *la++ = b1;
           *la++ = b2;
@@ -135,6 +160,16 @@ memcpy (void *__restrict aa, const void *__restrict bb, size_t n)
           *la++ = b6;
           *la++ = b7;
           *la++ = b8;
+#if __riscv_xlen == 128
+	  *la++ = b9;
+          *la++ = b10;
+          *la++ = b11;
+          *la++ = b12;
+          *la++ = b13;
+          *la++ = b14;
+          *la++ = b15;
+          *la++ = b16;
+#endif
         }
     }
 

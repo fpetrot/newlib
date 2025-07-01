@@ -56,6 +56,8 @@ static __inline uintxlen_t __libc_detect_null(uintxlen_t w)
   uintxlen_t mask = 0x7f7f7f7f;
   #if __riscv_xlen == 64
     mask = ((mask << 16) << 16) | mask;
+  #elif __riscv_xlen == 128
+    mask = ((uintxlen_t)0x7f7f7f7f7f7f7f7fULL << 64) | 0x7f7f7f7f7f7f7f7fULL;
   #endif
   return ~(((w & mask) + mask) | w | mask);
 #endif
@@ -86,23 +88,44 @@ static __inline char *__libc_strcpy(char *dst, const char *src, bool ret_start)
           if (!(*dst++ = src[0])) return dst0;
           if (!(*dst++ = src[1])) return dst0;
           if (!(*dst++ = src[2])) return dst0;
-          #if __riscv_xlen == 64
+          #if __riscv_xlen == 64 || __riscv_xlen == 128
             if (!(*dst++ = src[3])) return dst0;
             if (!(*dst++ = src[4])) return dst0;
             if (!(*dst++ = src[5])) return dst0;
             if (!(*dst++ = src[6])) return dst0;
           #endif
+	  #if __riscv_xlen == 128
+            if (!(*dst++ = src[7])) return dst0;
+            if (!(*dst++ = src[8])) return dst0;
+            if (!(*dst++ = src[9])) return dst0;
+            if (!(*dst++ = src[10])) return dst0;
+	    if (!(*dst++ = src[11])) return dst0;
+            if (!(*dst++ = src[12])) return dst0;
+            if (!(*dst++ = src[13])) return dst0;
+            if (!(*dst++ = src[14])) return dst0;
+          #endif
+
         }
       else
         {
           if (!(*dst++ = src[0])) return dst - 1;
           if (!(*dst++ = src[1])) return dst - 1;
           if (!(*dst++ = src[2])) return dst - 1;
-          #if __riscv_xlen == 64
+          #if __riscv_xlen == 64 || __riscv_xlen == 128
             if (!(*dst++ = src[3])) return dst - 1;
             if (!(*dst++ = src[4])) return dst - 1;
             if (!(*dst++ = src[5])) return dst - 1;
             if (!(*dst++ = src[6])) return dst - 1;
+          #endif
+          #if __riscv_xlen == 128 
+            if (!(*dst++ = src[7])) return dst - 1;
+            if (!(*dst++ = src[8])) return dst - 1;
+            if (!(*dst++ = src[9])) return dst - 1;
+            if (!(*dst++ = src[10])) return dst - 1;
+            if (!(*dst++ = src[11])) return dst - 1;
+            if (!(*dst++ = src[12])) return dst - 1;
+            if (!(*dst++ = src[13])) return dst - 1;
+            if (!(*dst++ = src[14])) return dst - 1;
           #endif
           dst0 = dst;
         }

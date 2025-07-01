@@ -74,7 +74,25 @@ memrchr (const void *src_void,
 
       switch (align)
         {
-#if MV_SZ == 8
+#if MV_SZ == 16
+          case 15:
+            if (*src-- == d) return (void *) (src + 1);
+          case 14:
+            if (*src-- == d) return (void *) (src + 1);
+          case 13:
+            if (*src-- == d) return (void *) (src + 1);
+          case 12:
+            if (*src-- == d) return (void *) (src + 1);
+	  case 11:
+            if (*src-- == d) return (void *) (src + 1);
+          case 10:
+            if (*src-- == d) return (void *) (src + 1);
+          case 9:
+            if (*src-- == d) return (void *) (src + 1);
+          case 8:
+            if (*src-- == d) return (void *) (src + 1);
+#endif /* MV_SZ == 16 */
+#if MV_SZ == 8 || MV_SZ == 16
           case 7:
             if (*src-- == d) return (void *) (src + 1);
           case 6:
@@ -142,13 +160,23 @@ memrchr (const void *src_void,
               if (*src-- == d) return (void *) (src + 1);
               if (*src-- == d) return (void *) (src + 1);
               if (*src-- == d) return (void *) (src + 1);
-#if __riscv_xlen == 64
+#if __riscv_xlen == 64 || __riscv_xlen == 128
               if (*src-- == d) return (void *) (src + 1);
               if (*src-- == d) return (void *) (src + 1);
               if (*src-- == d) return (void *) (src + 1);
               if (*src-- == d) return (void *) (src + 1);
 #endif /* __riscv_xlen == 64 */
-              return (void *) src;
+#if __riscv_xlen == 128
+              if (*src-- == d) return (void *) (src + 1);
+              if (*src-- == d) return (void *) (src + 1);
+              if (*src-- == d) return (void *) (src + 1);
+              if (*src-- == d) return (void *) (src + 1);
+              if (*src-- == d) return (void *) (src + 1);
+              if (*src-- == d) return (void *) (src + 1);
+              if (*src-- == d) return (void *) (src + 1);
+              if (*src-- == d) return (void *) (src + 1);
+#endif /* __riscv_xlen == 128 */
+	      return (void *) src;
 #endif /* __riscv_zbb */
             }
 

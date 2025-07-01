@@ -55,14 +55,28 @@ size_t strlen(const char *str)
     if (c2 == 0)                        return ret + 2 - sp;
     if (__riscv_xlen == 32 || c3 == 0)  return ret + 3 - sp;
 
-    #if __riscv_xlen == 64
-      c0 = str[4 - sp], c1 = str[5 - sp], c2 = str[6 - sp];
+    #if __riscv_xlen == 64 || __riscv_xlen == 128
+      c0 = str[4 - sp], c1 = str[5 - sp], c2 = str[6 - sp], c3 = str[7 -sp];
       if (c0 == 0)                      return ret + 4 - sp;
       if (c1 == 0)                      return ret + 5 - sp;
       if (c2 == 0)                      return ret + 6 - sp;
+      if (c3 == 0)                      return ret + 7 - sp;
     #endif
+	
+    #if __riscv_xlen == 128
+      c0 = str[8 - sp], c1 = str[9 - sp], c2 = str[10 - sp], c3 = str[11 -sp];
+      if (c0 == 0)                      return ret + 8 - sp;
+      if (c1 == 0)                      return ret + 9 - sp;
+      if (c2 == 0)                      return ret + 10 - sp;
+      if (c3 == 0)                      return ret + 11 - sp;
 
-    return ret + 7 - sp;
+      c0 = str[12 - sp], c1 = str[13 - sp], c2 = str[14 - sp], c3 = str[15 -sp];
+      if (c0 == 0)                      return ret + 12 - sp;
+      if (c1 == 0)                      return ret + 13 - sp;
+      if (c2 == 0)                      return ret + 14 - sp;
+
+    #endif
+    return ret + 15 - sp;
   #endif
 #endif /* not PREFER_SIZE_OVER_SPEED */
 }
