@@ -10,7 +10,9 @@
 */
 
 #include "newlib.h"
-
+#include "macro.s"
+#include "skip.s"
+#include "trap.s"
 #=========================================================================
 # crt0.S : Entry point for RISC-V user programs
 #=========================================================================
